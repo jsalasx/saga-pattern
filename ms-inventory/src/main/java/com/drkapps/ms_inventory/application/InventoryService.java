@@ -13,7 +13,7 @@ public class InventoryService {
     private final ProductRepositoryPort productRepository;
     private final EventPublisherPort eventPublisher;
 
-    public Mono<Void> handleOrder(String productId, int quantity) {
+    public Mono<Void> handleOrder(String productId, int quantity, String orderId) {
         return productRepository.findById(productId)
                 .flatMap(product -> {
                     if (product.reserveStock(quantity)) {
@@ -21,11 +21,11 @@ public class InventoryService {
                                 .doOnSuccess(p -> eventPublisher.publish("inventory-reserved", productId))
                                 .then();
                     } else {
-                        eventPublisher.publish("inventory-failed", productId);
+                        eventPublisher.publish("inventory-failed", orderId);
                         return Mono.empty();
                     }
                 })
-                .switchIfEmpty(Mono.fromRunnable(() -> eventPublisher.publish("inventory-failed", productId)))
+                .switchIfEmpty(Mono.fromRunnable(() -> eventPublisher.publish("inventory-failed", orderId)))
                 .then();
     }
 }

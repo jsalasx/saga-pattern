@@ -16,4 +16,9 @@ public class MongoOrderAdapter implements OrderRepositoryPort {
     public Mono<Order> save(Order order) {
         return mongoRepo.save(order);
     }
+
+    @Override
+    public Mono<Order> findById(String orderId) {
+        return mongoRepo.findById(orderId);
+    }
 }
