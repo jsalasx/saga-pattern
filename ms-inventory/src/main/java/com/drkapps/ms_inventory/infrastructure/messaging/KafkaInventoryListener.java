@@ -1,6 +1,6 @@
 package com.drkapps.ms_inventory.infrastructure.messaging;
 
-import com.drkapps.inventory.application.InventoryService;
+import com.drkapps.ms_inventory.application.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

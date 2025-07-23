@@ -1,7 +1,7 @@
 package com.drkapps.ms_inventory.application;
 
-import com.drkapps.inventory.domain.ports.EventPublisherPort;
-import com.drkapps.inventory.domain.ports.ProductRepositoryPort;
+import com.drkapps.ms_inventory.domain.ports.EventPublisherPort;
+import com.drkapps.ms_inventory.domain.ports.ProductRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

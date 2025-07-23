@@ -1,7 +1,7 @@
 package com.drkapps.ms_inventory.infrastructure.repository;
 
-import com.drkapps.inventory.domain.model.Product;
-import com.drkapps.inventory.domain.ports.ProductRepositoryPort;
+import com.drkapps.ms_inventory.domain.model.Product;
+import com.drkapps.ms_inventory.domain.ports.ProductRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;

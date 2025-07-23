@@ -22,7 +22,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: k8s
             - name: SPRING_DATA_MONGODB_URI
-              value: mongodb://mongodb:27017/ecommerce
+              value: mongodb://192.168.100.81:27017/ecommerce
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: kafka:9092
 ---

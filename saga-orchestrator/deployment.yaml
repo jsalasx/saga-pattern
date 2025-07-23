@@ -1,39 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ms-inventory
+  name: saga-orchestrator
   namespace: ecommerce
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ms-inventory
+      app: saga-orchestrator
   template:
     metadata:
       labels:
-        app: ms-inventory
+        app: saga-orchestrator
     spec:
       containers:
-        - name: ms-inventory
-          image: my-ecommerce/ms-inventory:1.0.0
+        - name: saga-orchestrator
+          image: my-ecommerce/saga-orchestrator:1.0.0
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: k8s
-            - name: SPRING_DATA_MONGODB_URI
-              value: mongodb://192.168.100.81:27017/ecommerce
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: kafka:9092
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ms-inventory
+  name: saga-orchestrator
   namespace: ecommerce
 spec:
   selector:
-    app: ms-inventory
+    app: saga-orchestrator
   ports:
     - port: 80
       targetPort: 8080

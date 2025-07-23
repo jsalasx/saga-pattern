@@ -1,8 +1,8 @@
 package com.drkapps.ms_inventory.infrastructure.config;
 
 
-import com.drkapps.inventory.domain.model.Product;
-import com.drkapps.inventory.domain.ports.ProductRepositoryPort;
+import com.drkapps.ms_inventory.domain.model.Product;
+import com.drkapps.ms_inventory.domain.ports.ProductRepositoryPort;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

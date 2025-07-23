@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ms-billing
+
+  config:
+    activate:
+      on-profile: local
+
+  data:
+    mongodb:
+      uri: mongodb://192.168.100.81:27017/ecommerce
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: billing-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+server:
+  port: 8080
+

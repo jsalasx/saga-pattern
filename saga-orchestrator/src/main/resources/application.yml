@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: saga-orchestrator
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: saga-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+server:
+  port: 8080
