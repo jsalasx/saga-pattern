@@ -6,7 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ms-billing" />
+        <module name="ms-inventory" />
         <module name="ms-orders" />
+        <module name="saga-orchestrator" />
       </profile>
     </annotationProcessing>
   </component>
