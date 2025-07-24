@@ -14,6 +14,7 @@
         <module>ms-orders</module>
         <module>ms-inventory</module>
         <module>ms-billing</module>
+        <module>saga-shared</module>
         <module>saga-orchestrator</module>
     </modules>
 

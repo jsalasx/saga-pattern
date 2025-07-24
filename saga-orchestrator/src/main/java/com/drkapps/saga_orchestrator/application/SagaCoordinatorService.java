@@ -43,10 +43,8 @@ public class SagaCoordinatorService {
      * Maneja cuando la factura es creada.
      * Completa el pedido.
      */
-    public void handleInvoiceCreated(String message) {
+    public void handleInvoiceCreated(String orderId) {
         // message: "invoiceId:orderId"
-        String[] parts = message.split(":");
-        String orderId = parts[1];
         System.out.println("[SAGA] Factura creada, orden completada: " + orderId);
         eventPublisher.publish("order-completed", orderId);
     }

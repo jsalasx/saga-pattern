@@ -8,9 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ms-billing" />
         <module name="ms-inventory" />
+        <module name="saga-shared" />
         <module name="ms-orders" />
         <module name="saga-orchestrator" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="saga-shared" options="" />
+    </option>
   </component>
 </project>

@@ -4,6 +4,8 @@ package com.drkapps.ms_orders.infrastructure.controllers;
 import com.drkapps.ms_orders.application.OrderService;
 import com.drkapps.ms_orders.domain.model.Order;
 import com.drkapps.ms_orders.infrastructure.dto.OrderRequestDto;
+import com.drkapps.saga_shared.infrastructure.OrderSharedDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public Mono<ResponseEntity<Order>> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
-        log.info("Creating order for productId: {}, quantity: {}", orderRequestDto.getProductId(), orderRequestDto.getQuantity());
-        return orderService.createOrder(orderRequestDto.getProductId(), orderRequestDto.getQuantity())
+    public Mono<ResponseEntity<Order>> createOrder(@RequestBody OrderSharedDto orderSharedDto) throws JsonProcessingException {
+        log.info("Create order {}", orderSharedDto.getCustomerName());
+        return orderService.createOrder(orderSharedDto)
                 .map(ResponseEntity::ok);
     }
 

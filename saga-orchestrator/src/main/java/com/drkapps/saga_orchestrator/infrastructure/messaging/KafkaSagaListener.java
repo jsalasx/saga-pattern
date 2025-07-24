@@ -11,10 +11,10 @@ public class KafkaSagaListener {
 
     private final SagaCoordinatorService sagaCoordinator;
 
-    @KafkaListener(topics = "inventory-reserved", groupId = "saga-group")
-    public void onInventoryReserved(String message) {
-        sagaCoordinator.handleInventoryReserved(message);
-    }
+//    @KafkaListener(topics = "inventory-reserved", groupId = "saga-group")
+//    public void onInventoryReserved(String message) {
+//        sagaCoordinator.handleInventoryReserved(message);
+//    }
 
     @KafkaListener(topics = "inventory-failed", groupId = "saga-group")
     public void onInventoryFailed(String orderId) {
@@ -27,7 +27,7 @@ public class KafkaSagaListener {
     }
 
     @KafkaListener(topics = "invoice-created", groupId = "saga-group")
-    public void onInvoiceCreated(String message) {
-        sagaCoordinator.handleInvoiceCreated(message);
+    public void onInvoiceCreated(String orderId) {
+        sagaCoordinator.handleInvoiceCreated(orderId);
     }
 }

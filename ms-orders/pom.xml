@@ -17,6 +17,11 @@
 
 	<dependencies>
 		<!-- Dependencias específicas (si necesitas algo extra para pedidos) -->
+		<dependency>
+			<groupId>com.drkapps</groupId>
+			<artifactId>saga-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
