@@ -74,4 +74,8 @@ public class InventoryService {
                                 })
                 ).then();
     }
+
+    public Flux<Product> getProducts() {
+        return productRepository.getAll();
+    }
 }

@@ -29,3 +29,6 @@ restart-ms-saga-orchestrator:
 	kubectl rollout restart deployment/saga-orchestrator -n ecommerce
 
 deploy-ms-saga-orchestrator: build-ms-saga-orchestrator restart-ms-saga-orchestrator
+
+
+deploy-all: deploy-ms-billing deploy-ms-inventory deploy-ms-orders deploy-ms-saga-orchestrator

@@ -4,6 +4,7 @@ import com.drkapps.ms_inventory.domain.model.Product;
 import com.drkapps.ms_inventory.domain.ports.ProductRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -25,5 +26,10 @@ public class MongoProductAdapter implements ProductRepositoryPort {
     @Override
     public Mono<Long> count() {
         return mongoRepo.count();
+    }
+
+    @Override
+    public Flux<Product> getAll() {
+        return mongoRepo.findAll();
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/v1/orders")
+@RequestMapping("saga/api/v1/orders")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {

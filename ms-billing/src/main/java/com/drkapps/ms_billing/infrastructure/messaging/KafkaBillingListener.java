@@ -26,6 +26,7 @@ public class KafkaBillingListener {
         try {
             OrderSharedDto orderSharedDto = mapper.readValue(record.value(), OrderSharedDto.class);
             billingService.generateInvoice(orderSharedDto, record.value()).block();
+            ack.acknowledge();
         } catch (Exception e) {
             throw new RuntimeException("Error procesado billing message " + record.value(), e);
         }

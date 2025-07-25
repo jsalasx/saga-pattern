@@ -96,12 +96,27 @@ spec:
     - host: "pe-back.com"
       http:
         paths:
-          - path: "/api/v1/orders"
+          - path: "/saga/api/v1/orders"
             pathType: ImplementationSpecific
             backend:
               service:
                 name: ms-orders-svc
                 port:
                   number: 80
+          - path: "/saga/api/v1/inventory"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ms-inventory-svc
+                port:
+                  number: 80
+          - path: "/saga/api/v1/invoices"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ms-billing-svc
+                port:
+                  number: 80
+
 
 
