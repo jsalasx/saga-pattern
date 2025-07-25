@@ -1,0 +1,11 @@
+saga_pattern:
+  namespace: ecommerce
+  db:
+    mongo_uri: mongodb://192.168.100.81:27017/ecommerce
+  images:
+    registry: my-ecommerce
+    tag: 1.0.0
+  kafka:
+    bootstrap_servers: kafka:9092
+  deploy:
+    host: ecommerce-saga.drkapps.com

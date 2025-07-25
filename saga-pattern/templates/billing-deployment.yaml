@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ms-inventory
-  namespace: ecommerce
+  name: ms-billing
+  namespace: {{.Values.saga_pattern.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ms-inventory
+      app: ms-billing
   template:
     metadata:
       labels:
-        app: ms-inventory
+        app: ms-billing
     spec:
       containers:
-        - name: ms-inventory
-          image: my-ecommerce/ms-inventory:1.0.0
+        - name: ms-billing
+          image: "{{ .Values.saga_pattern.images.registry }}/ms-billing:{{ .Values.saga_pattern.images.tag }}"
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: k8s
             - name: SPRING_DATA_MONGODB_URI
-              value: mongodb://192.168.100.81:27017/ecommerce
+              value: {{ .Values.saga_pattern.db.mongo_uri }}
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: kafka:9092
+              value: {{ .Values.saga_pattern.kafka.bootstrap_servers }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ms-inventory-svc
-  namespace: ecommerce
+  name: ms-billing-svc
+  namespace: {{.Values.saga_pattern.namespace }}
 spec:
   selector:
-    app: ms-inventory
+    app: ms-billing
   ports:
     - port: 80
       targetPort: 8080
