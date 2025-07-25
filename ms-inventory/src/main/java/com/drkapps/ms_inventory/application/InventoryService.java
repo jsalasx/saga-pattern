@@ -78,4 +78,20 @@ public class InventoryService {
     public Flux<Product> getProducts() {
         return productRepository.getAll();
     }
+
+    public Mono<Product> updateStock(String productId, int newStock) {
+        return productRepository.findById(productId).flatMap(product ->
+                {
+                    product.setStock(newStock);
+                    return productRepository.save(product);
+                }
+        );
+
+    }
+
+    public Mono<Product> saveProduct(Product product) throws RuntimeException {
+        return productRepository.findByName(product.getName().toLowerCase())
+                .flatMap(existing -> Mono.<Product>error(new RuntimeException("Product already exists: " + product.getName())))
+                .switchIfEmpty(productRepository.save(product));
+    }
 }

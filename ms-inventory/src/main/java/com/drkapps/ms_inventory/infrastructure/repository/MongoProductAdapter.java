@@ -32,4 +32,9 @@ public class MongoProductAdapter implements ProductRepositoryPort {
     public Flux<Product> getAll() {
         return mongoRepo.findAll();
     }
+
+    @Override
+    public Mono<Product> findByName(String name) {
+        return mongoRepo.findByNameIgnoreCase(name);
+    }
 }

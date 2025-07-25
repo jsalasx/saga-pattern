@@ -1,10 +1,9 @@
-package com.drkapps.ms_inventory.infrastructure.controlelrs;
+package com.drkapps.ms_inventory.infrastructure.controllers;
 
 
 import com.drkapps.ms_inventory.application.InventoryService;
 import com.drkapps.ms_inventory.domain.model.Product;
-import com.drkapps.saga_shared.infrastructure.OrderSharedDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.drkapps.ms_inventory.infrastructure.dto.UpdateStockDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +19,19 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    @GetMapping("/get-products")
-    public Flux<ResponseEntity<Product>> getProducts(@RequestBody OrderSharedDto orderSharedDto) throws JsonProcessingException {
-        log.info("Create order {}", orderSharedDto.getCustomerName());
-        return inventoryService.getProducts()
-                .map(ResponseEntity::ok);
+    @GetMapping("/products/get")
+    public Flux<Product> getProducts() {
+        return inventoryService.getProducts();
+    }
+
+    @PostMapping("/products/{productId}/stock")
+    public Mono<Product> updateStock(@PathVariable("productId") String productId, @RequestBody UpdateStockDto updateStockDto) {
+        return inventoryService.updateStock(productId, updateStockDto.getStock());
+    }
+
+    @PostMapping("/products/save")
+    public Mono<Product> saveProduct(@RequestBody Product product) {
+        return inventoryService.saveProduct(product);
     }
 
     @GetMapping()

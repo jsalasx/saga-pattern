@@ -4,6 +4,7 @@ import com.drkapps.ms_orders.domain.model.Order;
 import com.drkapps.ms_orders.domain.ports.OrderRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -20,5 +21,10 @@ public class MongoOrderAdapter implements OrderRepositoryPort {
     @Override
     public Mono<Order> findById(String orderId) {
         return mongoRepo.findById(orderId);
+    }
+
+    @Override
+    public Flux<Order> findAll() {
+        return mongoRepo.findAll();
     }
 }
