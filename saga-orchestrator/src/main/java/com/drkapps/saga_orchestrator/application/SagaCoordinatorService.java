@@ -33,9 +33,9 @@ public class SagaCoordinatorService {
      * Maneja cuando la facturación falla.
      * Revierte inventario y cancela orden.
      */
-    public void handleBillingFailed(String orderId) {
+    public void handleBillingFailed(String messaga, String orderId) {
         System.out.println("[SAGA] Facturación falló, rollback de inventario y cancelación de orden: " + orderId);
-        eventPublisher.publish("inventory-rollback", orderId);
+        eventPublisher.publish("inventory-rollback", messaga);
         eventPublisher.publish("order-cancelled", orderId);
     }
 

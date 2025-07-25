@@ -14,6 +14,9 @@ public class KafkaProducerAdapter implements EventPublisherPort {
 
     @Override
     public void publish(String topic, String message) {
-        kafkaTemplate.send(topic, message);
+        kafkaTemplate.executeInTransaction(ops -> {
+            ops.send(topic, message);
+            return true;
+        });
     }
 }

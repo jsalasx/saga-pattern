@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,10 +20,14 @@ public class KafkaBillingListener {
     private final ObjectMapper mapper;
 
     @KafkaListener(topics = "inventory-reserved", groupId = "billing-group")
-    public void onInventoryReserved(String message) throws JsonProcessingException {
+    public void onInventoryReserved(ConsumerRecord<String, String> record, Acknowledgment ack) throws JsonProcessingException {
         // message format: "orderId:amount"
-        log.warn("Payload inventory-reserved: {}", message);
-        OrderSharedDto orderSharedDto = mapper.readValue(message, OrderSharedDto.class);
-        billingService.generateInvoice(orderSharedDto, message).subscribe();
+        log.warn("Payload inventory-reserved: {}", record.value());
+        try {
+            OrderSharedDto orderSharedDto = mapper.readValue(record.value(), OrderSharedDto.class);
+            billingService.generateInvoice(orderSharedDto, record.value()).block();
+        } catch (Exception e) {
+            throw new RuntimeException("Error procesado billing message " + record.value(), e);
+        }
     }
 }

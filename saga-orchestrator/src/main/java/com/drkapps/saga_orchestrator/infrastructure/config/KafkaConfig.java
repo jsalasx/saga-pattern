@@ -1,4 +1,4 @@
-package com.drkapps.ms_orders.infrastructure.config;
+package com.drkapps.saga_orchestrator.infrastructure.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -24,10 +24,10 @@ public class KafkaConfig {
         config.put(ProducerConfig.ACKS_CONFIG, "all");
         config.put(ProducerConfig.RETRIES_CONFIG, 5);
         config.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5);
-        config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "ms-orders-producer");
+        config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "ms-saga-producer");
 
         DefaultKafkaProducerFactory<String, String> factory = new DefaultKafkaProducerFactory<>(config);
-        factory.setTransactionIdPrefix("tx-orders");
+        factory.setTransactionIdPrefix("tx-saga");
         return factory;
     }
 

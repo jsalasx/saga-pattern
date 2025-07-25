@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -19,23 +20,24 @@ public class BillingService {
 
     public Mono<Invoice> generateInvoice(OrderSharedDto orderSharedDto, String message) {
         // Simulamos una probabilidad de fallo
-        //boolean fail = new Random().nextDouble() < 0.2;
+        boolean fail = orderSharedDto.getTotal() >= 4000;
+
         try {
             Invoice invoice = Invoice.builder()
                     .orderId(orderSharedDto.getOrderId())
                     .amount(orderSharedDto.getTotal())
                     .createdAt(Instant.now())
-                    //.status(fail ? "FAILED" : "GENERATED")
-                    .status("GENERATED") // For simplicity, always generated
+                    .status(fail ? "FAILED" : "GENERATED")
+                    //.status("GENERATED") // For simplicity, always generated
                     .build();
 
             return invoiceRepository.save(invoice)
                     .doOnSuccess(saved -> {
-                        //if (fail) {
-                        //    eventPublisher.publish("billing-failed", orderId);
-                        //} else {
-                        eventPublisher.publish("invoice-created", orderSharedDto.getOrderId());
-                        //}
+                        if (fail) {
+                            eventPublisher.publish("billing-failed", message);
+                        } else {
+                            eventPublisher.publish("invoice-created", orderSharedDto.getOrderId());
+                        }
                     });
         } catch (Exception e) {
             // En caso de error, publicamos un evento de fallo

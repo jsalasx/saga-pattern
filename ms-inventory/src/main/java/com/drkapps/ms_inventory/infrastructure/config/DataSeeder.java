@@ -19,8 +19,8 @@ public class DataSeeder {
         productRepository.count()
                 .filter(count -> count == 0)
                 .flatMapMany(ignore -> Flux.just(
-                        Product.builder().name("Laptop").stock(10).price(1200).build(),
-                        Product.builder().name("Phone").stock(20).price(800).build(),
+                        Product.builder().name("Laptop").stock(4000).price(1200).build(),
+                        Product.builder().name("Phone").stock(6000).price(800).build(),
                         Product.builder().name("Headphones").stock(15).price(150).build()
                 ))
                 .flatMap(productRepository::save)

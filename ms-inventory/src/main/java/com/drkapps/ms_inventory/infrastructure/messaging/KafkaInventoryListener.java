@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,16 +20,26 @@ public class KafkaInventoryListener {
     private final ObjectMapper mapper;
 
     @KafkaListener(topics = "order-created", groupId = "inventory-group")
-    public void onOrderCreated(String message) throws JsonProcessingException {
-        log.warn("Payload order-created: {}", message);
-        OrderSharedDto orderSharedDto = mapper.readValue(message, OrderSharedDto.class);
-        inventoryService.handleOrder(orderSharedDto, message).subscribe();
+    public void onOrderCreated(ConsumerRecord<String, String> record, Acknowledgment ack) throws JsonProcessingException {
+        log.warn("Payload order-created: {}", record.value());
+        OrderSharedDto orderSharedDto = mapper.readValue(record.value(), OrderSharedDto.class);
+        try {
+            inventoryService.handleOrder(orderSharedDto, record.value()).block(); // espera resultado
+            ack.acknowledge(); // confirma solo si todo salió bien
+        } catch (Exception e) {
+            throw new RuntimeException("Error procesando mensaje: " + record.value(), e);
+        }
     }
 
     @KafkaListener(topics = "inventory-rollback", groupId = "inventory-group")
-    public void onBillingFail(String message) throws JsonProcessingException {
-        log.warn("Payload inventory-rollback: {}", message);
-        OrderSharedDto orderSharedDto = mapper.readValue(message, OrderSharedDto.class);
-        inventoryService.handleBillingError(orderSharedDto, message).subscribe();
+    public void onBillingFail(ConsumerRecord<String, String> record, Acknowledgment ack) throws JsonProcessingException {
+        log.warn("Payload inventory-rollback: {}", record.value());
+        OrderSharedDto orderSharedDto = mapper.readValue(record.value(), OrderSharedDto.class);
+        try {
+            inventoryService.handleBillingError(orderSharedDto, record.value()).block();
+            ack.acknowledge();
+        } catch (Exception e) {
+            throw new RuntimeException("Error procesando mensaje: " + record.value(), e);
+        }
     }
 }
